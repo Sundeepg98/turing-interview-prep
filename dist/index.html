@@ -104,6 +104,25 @@
             margin-bottom: 2rem;
         }
         
+        /* Responsive font size for title when sidebar is visible */
+        @media (max-width: 1400px) {
+            .col-lg-10 .section-header h1.display-4 {
+                font-size: 2.5rem !important;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .col-md-9 .section-header h1.display-4 {
+                font-size: 2.2rem !important;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .section-header h1.display-4 {
+                font-size: 2rem !important;
+            }
+        }
+        
         .sidebar {
             background: var(--sidebar-bg);
             box-shadow: 0 0 10px rgba(0,0,0,0.05);
@@ -341,12 +360,24 @@
         .typing-effect {
             overflow: hidden;
             border-right: .15em solid #764ba2;
-            white-space: nowrap;
+            white-space: normal; /* Changed from nowrap to allow wrapping */
             margin: 0 auto;
             letter-spacing: .1em;
             animation: 
                 typing 3.5s steps(40, end),
                 blink-caret .75s step-end infinite;
+        }
+        
+        /* Fix for main content spacing when sidebar is hidden */
+        #mainContent {
+            padding-top: 20px; /* Add consistent top padding */
+        }
+        
+        /* Ensure header text wraps properly */
+        .section-header h1 {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
         }
         
         @keyframes typing {
@@ -2634,6 +2665,9 @@ pulumi config set --secret</code></pre>
                             mainContent.classList.add('col-md-12', 'col-lg-12');
                             toggleSidebar.innerHTML = '<i class="bi bi-list"></i> Show Menu';
                         }
+                        
+                        // Scroll to top to prevent content jumping
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
                     });
                 }
                 
