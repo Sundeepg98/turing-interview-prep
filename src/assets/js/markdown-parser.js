@@ -331,7 +331,7 @@ class MarkdownStructureParser {
         return `
         <div id="${question.id}" class="question-container">
             <div class="question-header">
-                <h3>${question.number}: "${question.title}"</h3>
+                <h3>${question.number}: ${question.title}</h3>
             </div>
             <div class="question-body">
         </div>`;

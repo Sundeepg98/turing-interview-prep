@@ -1,0 +1,17 @@
+{
+  "timestamp": "2025-07-21T04:26:00.387Z",
+  "analysis": {
+    "questions": [],
+    "totalQuestions": 0,
+    "questionsWithDoubleQuotes": 0,
+    "markdownParserInfo": null
+  },
+  "issue": "The markdown-parser.js file has hardcoded quotes in the createQuestionHTML method",
+  "solution": "Remove the quotes from line 334 in markdown-parser.js",
+  "codeToFix": {
+    "file": "/var/projects/interview_prep/src/assets/js/markdown-parser.js",
+    "line": 334,
+    "current": "<h3>${question.number}: \"${question.title}\"</h3>",
+    "fixed": "<h3>${question.number}: ${question.title}</h3>"
+  }
+}

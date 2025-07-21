@@ -2095,6 +2095,14 @@ pulumi config set --secret</code></pre>
                 // First decode HTML entities
                 text = this.decodeHtmlEntities(text);
                 
+                // Remove quotes from answer paragraphs before processing
+                // Match paragraphs that start and end with quotes on their own lines
+                text = text.replace(/^"([^"]+)"$/gm, '$1');
+                
+                // Also handle **Your Answer**: followed by quoted text
+                text = text.replace(/(\*\*Your Answer\*\*:\s*)\n"([^"]+)"/g, '$1\n$2');
+                text = text.replace(/(\*\*Your Experience\*\*:\s*)"([^"]+)"/g, '$1$2');
+                
                 // Store code blocks with placeholders to protect them
                 const codeBlocks = [];
                 text = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, code) => {
