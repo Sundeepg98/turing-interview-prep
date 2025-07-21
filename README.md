@@ -51,9 +51,6 @@ turing-interview-prep/
 │   └── assets/            # CSS and JavaScript
 │       ├── css/           # Styling
 │       └── js/            # JavaScript modules
-├── docs/                   # Documentation
-│   ├── README.md          # Legacy docs
-│   └── FINAL_SUMMARY.md   # Project completion summary
 ├── documents/              # Personal documents
 │   ├── JD-DevOps (Pulumi + TypeScript).pdf
 │   └── Sundeep_Resume.docx
