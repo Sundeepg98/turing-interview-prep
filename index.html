@@ -17,6 +17,10 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../src/assets/css/structure.css">
     <link rel="stylesheet" href="copy-button-styles.css">
+    
+    <!-- Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
     <style>
         /* CSS Variables for Theming */
         :root {
@@ -331,6 +335,270 @@
             background-color: var(--bg-tertiary);
             color: var(--text-primary);
             border-color: var(--border-color);
+        }
+        
+        /* Animated Typing Effect */
+        .typing-effect {
+            overflow: hidden;
+            border-right: .15em solid #764ba2;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .1em;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #764ba2; }
+        }
+        
+        /* Code Block Animations */
+        .code-animate {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Interactive Quiz Styles */
+        .quiz-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quiz-question {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            animation: slideInRight 0.5s ease;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(10px);
+            border-color: white;
+        }
+        
+        .quiz-option.correct {
+            background: #4CAF50;
+            animation: pulse 0.5s ease;
+        }
+        
+        .quiz-option.incorrect {
+            background: #f44336;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        /* Progress Animation */
+        .progress-animated {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-animated::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: progress-shine 2s linear infinite;
+        }
+        
+        @keyframes progress-shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        /* Terminal Simulation */
+        .terminal {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            margin: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .terminal-header {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 1rem;
+        }
+        
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .terminal-dot.red { background: #ff5f56; }
+        .terminal-dot.yellow { background: #ffbd2e; }
+        .terminal-dot.green { background: #27c93f; }
+        
+        .terminal-content {
+            color: #0f0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .terminal-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: #0f0;
+            animation: terminal-blink 1s infinite;
+        }
+        
+        @keyframes terminal-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        /* Interactive Code Diff */
+        .code-diff {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+        }
+        
+        .diff-line {
+            padding: 0.25rem 0.5rem;
+            margin: 2px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .diff-add {
+            background: rgba(76, 175, 80, 0.2);
+            border-left: 3px solid #4CAF50;
+        }
+        
+        .diff-remove {
+            background: rgba(244, 67, 54, 0.2);
+            border-left: 3px solid #f44336;
+        }
+        
+        .diff-line:hover {
+            transform: scale(1.02);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Floating Action Buttons */
+        .fab-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+        
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Interactive Tooltips */
+        .tooltip-custom {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            color: var(--link-color);
+            border-bottom: 1px dotted var(--link-color);
+        }
+        
+        .tooltip-custom::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: rgba(33, 37, 41, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .tooltip-custom:hover::after {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
         }
         
         [data-theme="dark"] .nav-link {
@@ -2376,7 +2644,202 @@ pulumi config set --secret</code></pre>
                     }
                 }
             });
+            
+            // Initialize Interactive Features
+            initializeInteractiveFeatures();
         });
+        
+        // Interactive Features Implementation
+        function initializeInteractiveFeatures() {
+            // 1. Animated Typing Effect for Headers
+            const headers = document.querySelectorAll('h1, h2');
+            headers.forEach(header => {
+                if (header.textContent.includes('Complete Turing Interview Guide')) {
+                    const text = header.textContent;
+                    header.innerHTML = `<span class="typing-effect">${text}</span>`;
+                }
+            });
+            
+            // 2. Add Interactive Quiz after Section 2
+            const section2 = document.querySelector('#technical-questions');
+            if (section2) {
+                const quizHtml = `
+                    <div class="quiz-container animate__animated animate__fadeIn">
+                        <h3 class="quiz-title">🎯 Quick Knowledge Check</h3>
+                        <div class="quiz-question">What is the main advantage of using Pulumi over traditional IaC tools?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">Using real programming languages with type safety</div>
+                            <div class="quiz-option" data-correct="false">It's faster to deploy</div>
+                            <div class="quiz-option" data-correct="false">It only works with AWS</div>
+                            <div class="quiz-option" data-correct="false">It doesn't require state management</div>
+                        </div>
+                        <div class="quiz-feedback mt-3" style="display: none;"></div>
+                    </div>
+                `;
+                section2.insertAdjacentHTML('afterend', quizHtml);
+                
+                // Quiz interaction
+                document.querySelectorAll('.quiz-option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        const isCorrect = this.dataset.correct === 'true';
+                        const feedback = document.querySelector('.quiz-feedback');
+                        
+                        // Remove previous states
+                        document.querySelectorAll('.quiz-option').forEach(opt => {
+                            opt.classList.remove('correct', 'incorrect');
+                            opt.style.pointerEvents = 'none';
+                        });
+                        
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            feedback.innerHTML = '✅ Correct! Pulumi\'s use of real programming languages provides type safety and better developer experience.';
+                            feedback.style.color = '#4CAF50';
+                        } else {
+                            this.classList.add('incorrect');
+                            feedback.innerHTML = '❌ Not quite. The main advantage is using real programming languages with full type safety and IDE support.';
+                            feedback.style.color = '#f44336';
+                        }
+                        
+                        feedback.style.display = 'block';
+                        feedback.classList.add('animate__animated', 'animate__fadeIn');
+                    });
+                });
+            }
+            
+            // 3. Animate code blocks on scroll
+            const codeBlocks = document.querySelectorAll('pre');
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+            
+            const codeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('code-animate');
+                        codeObserver.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            codeBlocks.forEach(block => {
+                codeObserver.observe(block);
+            });
+            
+            // 4. Add Terminal Simulation for commands
+            const commandSections = document.querySelectorAll('code.language-bash, code.language-shell');
+            commandSections.forEach(cmd => {
+                const parent = cmd.closest('pre');
+                if (parent && cmd.textContent.includes('pulumi')) {
+                    const terminalHtml = `
+                        <div class="terminal">
+                            <div class="terminal-header">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                            </div>
+                            <div class="terminal-content">
+                                <span class="terminal-command">${cmd.textContent}</span>
+                                <span class="terminal-cursor"></span>
+                            </div>
+                        </div>
+                    `;
+                    parent.insertAdjacentHTML('afterend', terminalHtml);
+                }
+            });
+            
+            // 5. Add progress animation to progress bars
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                bar.classList.add('progress-animated');
+            });
+            
+            // 6. Create Floating Action Buttons
+            const fabContainer = document.createElement('div');
+            fabContainer.className = 'fab-container';
+            fabContainer.innerHTML = `
+                <button class="fab" id="scrollToTop" title="Scroll to top">
+                    <i class="bi bi-arrow-up"></i>
+                </button>
+                <button class="fab" id="quickNavFab" title="Quick navigation">
+                    <i class="bi bi-compass"></i>
+                </button>
+            `;
+            document.body.appendChild(fabContainer);
+            
+            // Scroll to top functionality
+            document.getElementById('scrollToTop').addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Quick navigation
+            document.getElementById('quickNavFab').addEventListener('click', () => {
+                const quickNav = document.createElement('div');
+                quickNav.className = 'modal fade';
+                quickNav.innerHTML = `
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Quick Navigation</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="list-group">
+                                    <a href="#core-concepts" class="list-group-item list-group-item-action" data-bs-dismiss="modal">Core Concepts</a>
+                                    <a href="#technical-questions" class="list-group-item list-group-item-action" data-bs-dismiss="modal">Technical Questions</a>
+                                    <a href="#behavioral-questions" class="list-group-item list-group-item-action" data-bs-dismiss="modal">Behavioral Questions</a>
+                                    <a href="#star-stories" class="list-group-item list-group-item-action" data-bs-dismiss="modal">STAR Stories</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(quickNav);
+                const modal = new bootstrap.Modal(quickNav);
+                modal.show();
+                quickNav.addEventListener('hidden.bs.modal', () => quickNav.remove());
+            });
+            
+            // 7. Add interactive tooltips to technical terms
+            const technicalTerms = {
+                'TypeScript': 'A strongly typed programming language that builds on JavaScript',
+                'IaC': 'Infrastructure as Code - managing infrastructure through code instead of manual processes',
+                'Output': 'A Pulumi concept representing values known only after deployment',
+                'Stack': 'An isolated instance of your Pulumi program (dev, staging, prod)',
+                'Component Resource': 'Custom, reusable infrastructure abstractions'
+            };
+            
+            Object.entries(technicalTerms).forEach(([term, definition]) => {
+                const regex = new RegExp(`\\b${term}\\b`, 'g');
+                document.querySelectorAll('p, li').forEach(element => {
+                    if (element.innerHTML.includes(term) && !element.querySelector('.tooltip-custom')) {
+                        element.innerHTML = element.innerHTML.replace(regex, 
+                            `<span class="tooltip-custom" data-tooltip="${definition}">${term}</span>`
+                        );
+                    }
+                });
+            });
+            
+            // 8. Add code diff visualization for before/after examples
+            const codeExamples = document.querySelectorAll('pre code');
+            codeExamples.forEach((code, index) => {
+                if (code.textContent.includes('// Before') || code.textContent.includes('// After')) {
+                    const lines = code.textContent.split('\n');
+                    const diffHtml = lines.map(line => {
+                        if (line.includes('// Before')) return `<div class="diff-line diff-remove">- ${line}</div>`;
+                        if (line.includes('// After')) return `<div class="diff-line diff-add">+ ${line}</div>`;
+                        return `<div class="diff-line">${line}</div>`;
+                    }).join('');
+                    
+                    const diffContainer = document.createElement('div');
+                    diffContainer.className = 'code-diff';
+                    diffContainer.innerHTML = diffHtml;
+                    code.closest('pre').replaceWith(diffContainer);
+                }
+            });
+            
+            console.log('✨ Interactive features initialized!');
+        }
     </script>
     <script src="../final-100-fix.js"></script>
 </body>
