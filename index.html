@@ -601,6 +601,15 @@
             opacity: 1;
         }
         
+        /* Fix for typing effect inside Bootstrap display classes */
+        .display-4 .typing-effect,
+        .display-3 .typing-effect,
+        .display-2 .typing-effect,
+        .display-1 .typing-effect {
+            display: inline-block;
+            max-width: 100%;
+        }
+        
         [data-theme="dark"] .nav-link {
             color: var(--text-secondary) !important;
         }
@@ -2661,7 +2670,7 @@ pulumi config set --secret</code></pre>
             });
             
             // 2. Add Interactive Quiz after Section 2
-            const section2 = document.querySelector('#technical-questions');
+            const section2 = document.querySelector('#questions');
             if (section2) {
                 const quizHtml = `
                     <div class="quiz-container animate__animated animate__fadeIn">

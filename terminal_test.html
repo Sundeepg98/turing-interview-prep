@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Simulation Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 2rem;
+        }
+        
+        /* Terminal Simulation */
+        .terminal {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            margin: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .terminal-header {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 1rem;
+        }
+        
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .terminal-dot.red { background: #ff5f56; }
+        .terminal-dot.yellow { background: #ffbd2e; }
+        .terminal-dot.green { background: #27c93f; }
+        
+        .terminal-content {
+            color: #0f0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .terminal-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: #0f0;
+            animation: terminal-blink 1s infinite;
+        }
+        
+        @keyframes terminal-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        pre {
+            background: #f0f0f0;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Terminal Simulation Test</h1>
+    
+    <h2>Test 1: Manual Terminal Simulation</h2>
+    <div class="terminal">
+        <div class="terminal-header">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+        </div>
+        <div class="terminal-content">
+            <span class="terminal-command">$ pulumi new typescript</span>
+            <span class="terminal-cursor"></span>
+        </div>
+    </div>
+    
+    <h2>Test 2: Bash Code Block with Pulumi</h2>
+    <pre><code class="language-bash"># Essential Pulumi Commands
+pulumi new typescript
+pulumi up --yes
+pulumi preview --diff
+pulumi destroy
+pulumi stack select prod
+pulumi config set --secret</code></pre>
+    
+    <h2>Test 3: Shell Code Block without Pulumi</h2>
+    <pre><code class="language-shell">echo "This should not have terminal simulation"
+ls -la
+cd /home/user</code></pre>
+    
+    <h2>Test 4: Another Bash Block with Pulumi</h2>
+    <pre><code class="language-bash">pulumi login
+pulumi whoami</code></pre>
+    
+    <script>
+        // Terminal Simulation Script
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Starting terminal simulation...');
+            
+            const commandSections = document.querySelectorAll('code.language-bash, code.language-shell');
+            console.log('Found command sections:', commandSections.length);
+            
+            commandSections.forEach((cmd, index) => {
+                console.log(`Processing section ${index}:`, cmd.textContent.substring(0, 50));
+                
+                const parent = cmd.closest('pre');
+                if (parent && cmd.textContent.includes('pulumi')) {
+                    console.log(`Section ${index} contains 'pulumi', adding terminal simulation`);
+                    
+                    const terminalHtml = `
+                        <div class="terminal">
+                            <div class="terminal-header">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                            </div>
+                            <div class="terminal-content">
+                                <span class="terminal-command">${cmd.textContent}</span>
+                                <span class="terminal-cursor"></span>
+                            </div>
+                        </div>
+                    `;
+                    parent.insertAdjacentHTML('afterend', terminalHtml);
+                } else {
+                    console.log(`Section ${index} does not contain 'pulumi', skipping`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

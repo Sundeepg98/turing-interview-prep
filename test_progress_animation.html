@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Bar Animation Test</title>
+    <style>
+        body {
+            padding: 50px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .progress {
+            width: 100%;
+            height: 30px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: #28a745;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-animated {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-animated::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: progress-shine 2s linear infinite;
+        }
+        
+        @keyframes progress-shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .success { background-color: #d4edda; color: #155724; }
+        .failure { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>Progress Bar Animation Test</h1>
+    
+    <h2>Test Progress Bars:</h2>
+    <div class="progress">
+        <div class="progress-bar" style="width: 30%">30%</div>
+    </div>
+    
+    <div class="progress">
+        <div class="progress-bar" style="width: 60%">60%</div>
+    </div>
+    
+    <div class="progress">
+        <div class="progress-bar" style="width: 90%">90%</div>
+    </div>
+    
+    <h2>Test Results:</h2>
+    <div id="test-results"></div>
+    
+    <script>
+        // Test implementation matching the original file
+        const progressBars = document.querySelectorAll('.progress-bar');
+        progressBars.forEach(bar => {
+            bar.classList.add('progress-animated');
+        });
+        
+        // Run tests
+        const results = document.getElementById('test-results');
+        let allTestsPassed = true;
+        
+        // Test 1: Check if progress-animated class is added
+        const test1 = document.querySelectorAll('.progress-bar.progress-animated').length === progressBars.length;
+        results.innerHTML += `
+            <div class="test-result ${test1 ? 'success' : 'failure'}">
+                Test 1 - Progress-animated class added: ${test1 ? 'PASSED' : 'FAILED'} 
+                (${document.querySelectorAll('.progress-bar.progress-animated').length} of ${progressBars.length} bars have the class)
+            </div>
+        `;
+        allTestsPassed = allTestsPassed && test1;
+        
+        // Test 2: Check if shine animation exists
+        const styleSheets = document.styleSheets;
+        let animationFound = false;
+        let animationDuration = null;
+        let animationTiming = null;
+        
+        for (let sheet of styleSheets) {
+            try {
+                for (let rule of sheet.cssRules) {
+                    if (rule.name === 'progress-shine') {
+                        animationFound = true;
+                    }
+                    if (rule.selectorText === '.progress-animated::after') {
+                        const animation = rule.style.animation;
+                        if (animation.includes('2s') && animation.includes('linear') && animation.includes('infinite')) {
+                            animationDuration = '2s';
+                            animationTiming = 'linear infinite';
+                        }
+                    }
+                }
+            } catch (e) {
+                // Continue if we can't access rules
+            }
+        }
+        
+        results.innerHTML += `
+            <div class="test-result ${animationFound ? 'success' : 'failure'}">
+                Test 2 - Shine animation keyframes exist: ${animationFound ? 'PASSED' : 'FAILED'}
+            </div>
+        `;
+        allTestsPassed = allTestsPassed && animationFound;
+        
+        // Test 3: Check animation timing
+        const test3 = animationDuration === '2s' && animationTiming === 'linear infinite';
+        results.innerHTML += `
+            <div class="test-result ${test3 ? 'success' : 'failure'}">
+                Test 3 - Animation timing (2s linear infinite): ${test3 ? 'PASSED' : 'FAILED'}
+                ${animationDuration && animationTiming ? `(Found: ${animationDuration} ${animationTiming})` : ''}
+            </div>
+        `;
+        allTestsPassed = allTestsPassed && test3;
+        
+        // Test 4: Visual check for linear gradient
+        const firstBar = progressBars[0];
+        const computedStyle = window.getComputedStyle(firstBar, '::after');
+        const hasGradient = computedStyle.background.includes('linear-gradient') || 
+                           computedStyle.backgroundImage.includes('linear-gradient');
+        
+        results.innerHTML += `
+            <div class="test-result ${hasGradient ? 'success' : 'failure'}">
+                Test 4 - Linear gradient in ::after pseudo-element: ${hasGradient ? 'PASSED' : 'FAILED'}
+            </div>
+        `;
+        allTestsPassed = allTestsPassed && hasGradient;
+        
+        // Summary
+        results.innerHTML += `
+            <div class="test-result ${allTestsPassed ? 'success' : 'failure'}" style="font-weight: bold; margin-top: 20px;">
+                Overall Result: ${allTestsPassed ? 'ALL TESTS PASSED' : 'SOME TESTS FAILED'}
+            </div>
+        `;
+        
+        // Visual confirmation
+        results.innerHTML += `
+            <div style="margin-top: 20px; padding: 10px; background: #f0f0f0; border-radius: 5px;">
+                <strong>Visual Check:</strong> You should see a white shine effect moving from left to right across each progress bar every 2 seconds.
+            </div>
+        `;
+    </script>
+</body>
+</html>

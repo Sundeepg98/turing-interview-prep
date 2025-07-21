@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tooltip Test</title>
+    <style>
+        body {
+            padding: 50px;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        
+        /* Copy the tooltip styles from the main file */
+        .tooltip-custom {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            color: #007bff;
+            border-bottom: 1px dotted #007bff;
+        }
+        
+        .tooltip-custom::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: rgba(33, 37, 41, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .tooltip-custom:hover::after {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+        }
+        
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>Interactive Tooltip Test Page</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Manual Tooltip Test</h2>
+        <p>These tooltips are manually added to test the CSS:</p>
+        <p>
+            Learn <span class="tooltip-custom" data-tooltip="A strongly typed programming language that builds on JavaScript">TypeScript</span> 
+            and <span class="tooltip-custom" data-tooltip="Infrastructure as Code - managing infrastructure through code instead of manual processes">IaC</span> 
+            concepts.
+        </p>
+        <p>
+            Understanding <span class="tooltip-custom" data-tooltip="A Pulumi concept representing values known only after deployment">Output</span> 
+            and <span class="tooltip-custom" data-tooltip="An isolated instance of your Pulumi program (dev, staging, prod)">Stack</span> 
+            is crucial.
+        </p>
+        <p>
+            Create a <span class="tooltip-custom" data-tooltip="Custom, reusable infrastructure abstractions">Component Resource</span> 
+            for reusability.
+        </p>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Dynamic Tooltip Test</h2>
+        <p id="dynamic-test">
+            This paragraph contains TypeScript, IaC, Output, Stack, and Component Resource terms that should be wrapped dynamically.
+        </p>
+        <button onclick="applyTooltips()">Apply Tooltips Dynamically</button>
+        <div id="status" class="status" style="display:none;"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Tooltip Inspection</h2>
+        <button onclick="inspectTooltips()">Inspect All Tooltips</button>
+        <div id="inspection-results"></div>
+    </div>
+    
+    <script>
+        // Technical terms and definitions
+        const technicalTerms = {
+            'TypeScript': 'A strongly typed programming language that builds on JavaScript',
+            'IaC': 'Infrastructure as Code - managing infrastructure through code instead of manual processes',
+            'Output': 'A Pulumi concept representing values known only after deployment',
+            'Stack': 'An isolated instance of your Pulumi program (dev, staging, prod)',
+            'Component Resource': 'Custom, reusable infrastructure abstractions'
+        };
+        
+        function applyTooltips() {
+            const testParagraph = document.getElementById('dynamic-test');
+            const statusDiv = document.getElementById('status');
+            
+            try {
+                Object.entries(technicalTerms).forEach(([term, definition]) => {
+                    const regex = new RegExp(`\\b${term}\\b`, 'g');
+                    if (testParagraph.innerHTML.includes(term) && !testParagraph.querySelector('.tooltip-custom')) {
+                        testParagraph.innerHTML = testParagraph.innerHTML.replace(regex, 
+                            `<span class="tooltip-custom" data-tooltip="${definition}">${term}</span>`
+                        );
+                    }
+                });
+                
+                statusDiv.className = 'status success';
+                statusDiv.textContent = 'Tooltips applied successfully! Hover over the highlighted terms.';
+                statusDiv.style.display = 'block';
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.textContent = 'Error applying tooltips: ' + error.message;
+                statusDiv.style.display = 'block';
+            }
+        }
+        
+        function inspectTooltips() {
+            const resultsDiv = document.getElementById('inspection-results');
+            const tooltips = document.querySelectorAll('.tooltip-custom');
+            
+            let html = '<h3>Tooltip Inspection Results:</h3>';
+            html += `<p>Total tooltips found: ${tooltips.length}</p>`;
+            
+            if (tooltips.length > 0) {
+                html += '<ul>';
+                tooltips.forEach((tooltip, index) => {
+                    const term = tooltip.textContent;
+                    const definition = tooltip.getAttribute('data-tooltip');
+                    const computedStyle = window.getComputedStyle(tooltip, '::after');
+                    
+                    html += `<li>
+                        <strong>Tooltip ${index + 1}:</strong><br>
+                        Term: "${term}"<br>
+                        Definition: "${definition}"<br>
+                        Has data-tooltip: ${definition ? 'Yes' : 'No'}<br>
+                        CSS class: ${tooltip.className}
+                    </li>`;
+                });
+                html += '</ul>';
+            }
+            
+            resultsDiv.innerHTML = html;
+        }
+        
+        // Test tooltip positioning
+        window.addEventListener('load', () => {
+            console.log('Page loaded. Testing tooltip functionality...');
+            
+            // Check if manual tooltips are working
+            const manualTooltips = document.querySelectorAll('.test-section:first-child .tooltip-custom');
+            console.log(`Found ${manualTooltips.length} manual tooltips`);
+            
+            manualTooltips.forEach((tooltip, index) => {
+                console.log(`Tooltip ${index + 1}:`, {
+                    term: tooltip.textContent,
+                    definition: tooltip.getAttribute('data-tooltip'),
+                    styles: window.getComputedStyle(tooltip)
+                });
+            });
+        });
+    </script>
+</body>
+</html>
