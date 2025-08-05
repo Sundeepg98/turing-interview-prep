@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap + Typing Animation Test</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* Animated Typing Effect - Exact copy from index.html */
+        .typing-effect {
+            overflow: hidden;
+            border-right: .15em solid #764ba2;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .1em;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #764ba2; }
+        }
+
+        /* Fix for display-4 class */
+        .display-4 .typing-effect {
+            display: inline-block;
+            max-width: 100%;
+        }
+
+        .test-section {
+            margin: 20px;
+            padding: 20px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+        }
+
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Bootstrap + Typing Animation Test</h1>
+        
+        <div class="test-section">
+            <h2>Test 1: Original Structure (as in index.html)</h2>
+            <div class="section-header mt-4">
+                <h1 class="display-4">Complete Turing Interview Guide</h1>
+                <p class="lead mb-0">All 18 Questions • Pulumi/TypeScript DevOps Engineer</p>
+            </div>
+            <div id="status1" class="status"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test 2: Without Bootstrap Classes</h2>
+            <h1>Complete Turing Interview Guide</h1>
+            <div id="status2" class="status"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test 3: Manual Typing Effect Application</h2>
+            <h1 class="display-4"><span class="typing-effect">Complete Turing Interview Guide</span></h1>
+            <div id="status3" class="status success">✓ Typing effect applied manually in HTML</div>
+        </div>
+
+        <div class="test-section">
+            <h2>Diagnostic Information</h2>
+            <pre id="diagnostics" style="background: #f8f9fa; padding: 15px; border-radius: 5px;"></pre>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let diagnostics = 'Diagnostics:\n\n';
+            
+            // Apply typing effect as in index.html
+            const headers = document.querySelectorAll('h1, h2');
+            let appliedCount = 0;
+            
+            headers.forEach((header, index) => {
+                if (header.textContent.includes('Complete Turing Interview Guide')) {
+                    const text = header.textContent;
+                    header.innerHTML = `<span class="typing-effect">${text}</span>`;
+                    appliedCount++;
+                    
+                    // Check status for each test
+                    if (header.classList.contains('display-4') && header.closest('.test-section:nth-child(2)')) {
+                        document.getElementById('status1').className = 'status success';
+                        document.getElementById('status1').textContent = '✓ Typing effect applied to display-4 header';
+                    } else if (!header.classList.contains('display-4') && header.closest('.test-section:nth-child(3)')) {
+                        document.getElementById('status2').className = 'status success';
+                        document.getElementById('status2').textContent = '✓ Typing effect applied to regular header';
+                    }
+                }
+            });
+
+            diagnostics += `Total headers found: ${headers.length}\n`;
+            diagnostics += `Headers with typing effect applied: ${appliedCount}\n\n`;
+
+            // Check computed styles
+            setTimeout(() => {
+                const typingElements = document.querySelectorAll('.typing-effect');
+                diagnostics += `Elements with .typing-effect class: ${typingElements.length}\n\n`;
+                
+                typingElements.forEach((el, index) => {
+                    const computed = window.getComputedStyle(el);
+                    const parent = el.parentElement;
+                    
+                    diagnostics += `Element ${index + 1}:\n`;
+                    diagnostics += `  Parent tag: ${parent.tagName}\n`;
+                    diagnostics += `  Parent classes: ${parent.className}\n`;
+                    diagnostics += `  Animation: ${computed.animation || 'none'}\n`;
+                    diagnostics += `  Overflow: ${computed.overflow}\n`;
+                    diagnostics += `  White-space: ${computed.whiteSpace}\n`;
+                    diagnostics += `  Display: ${computed.display}\n`;
+                    diagnostics += `  Width: ${computed.width}\n\n`;
+                });
+
+                // Check for potential issues
+                diagnostics += 'Potential Issues:\n';
+                
+                const display4Headers = document.querySelectorAll('.display-4 .typing-effect');
+                if (display4Headers.length > 0) {
+                    const span = display4Headers[0];
+                    const computed = window.getComputedStyle(span);
+                    
+                    if (computed.display === 'inline') {
+                        diagnostics += '⚠️ Warning: .typing-effect inside .display-4 has display: inline\n';
+                        diagnostics += '   This might prevent the width animation from working properly.\n';
+                        diagnostics += '   Consider adding: .display-4 .typing-effect { display: inline-block; }\n';
+                    }
+                }
+
+                document.getElementById('diagnostics').textContent = diagnostics;
+            }, 100);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functionality Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .status {
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .pass { color: green; }
+        .fail { color: red; }
+        .info { color: blue; }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Interview Prep Site - Functionality Test</h1>
+    
+    <div class="test-section">
+        <h2>Test Instructions</h2>
+        <ol>
+            <li><strong>Search Input Test:</strong>
+                <ul>
+                    <li>Check if search input is visible in the navbar</li>
+                    <li>Type "Pulumi" in the search box</li>
+                    <li>Verify that matching sections are highlighted</li>
+                    <li>Press Enter to navigate through matches</li>
+                    <li>Click the clear button (X) to clear search</li>
+                </ul>
+            </li>
+            <li><strong>Dark Mode Test:</strong>
+                <ul>
+                    <li>Click the moon/sun icon in the navbar</li>
+                    <li>Verify that the entire page changes to dark theme</li>
+                    <li>Check that all text is readable</li>
+                    <li>Verify code blocks have appropriate dark syntax highlighting</li>
+                    <li>Toggle back to light mode and verify it works</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+    
+    <div class="test-section">
+        <h2>Live Site Preview</h2>
+        <iframe src="index.html" title="Interview Prep Site"></iframe>
+    </div>
+    
+    <div class="test-section">
+        <h2>Manual Test Results</h2>
+        <p>After testing, verify these items:</p>
+        <ul>
+            <li>Search input is visible in navbar: <span class="status info">[CHECK]</span></li>
+            <li>Search functionality works (highlighting): <span class="status info">[CHECK]</span></li>
+            <li>Search navigation (Enter key) works: <span class="status info">[CHECK]</span></li>
+            <li>Clear search button works: <span class="status info">[CHECK]</span></li>
+            <li>Dark mode toggle button is visible: <span class="status info">[CHECK]</span></li>
+            <li>Dark mode changes background colors: <span class="status info">[CHECK]</span></li>
+            <li>Dark mode changes text colors: <span class="status info">[CHECK]</span></li>
+            <li>Dark mode affects code blocks: <span class="status info">[CHECK]</span></li>
+            <li>Theme preference is saved: <span class="status info">[CHECK]</span></li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>Console Output</h2>
+        <p>Open browser console (F12) and check for any errors while using the features.</p>
+    </div>
+</body>
+</html>

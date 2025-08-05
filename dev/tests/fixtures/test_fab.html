@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAB Test Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .pass {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .fail {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .code {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+        iframe {
+            width: 100%;
+            height: 800px;
+            border: 2px solid #dee2e6;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>FAB (Floating Action Buttons) Test Results</h1>
+        <div id="test-results"></div>
+        
+        <h2>Live Preview</h2>
+        <iframe src="dist/index.html" id="test-frame"></iframe>
+    </div>
+
+    <script>
+        const results = document.getElementById('test-results');
+        let testCount = 0;
+        
+        function addResult(test, passed, details) {
+            testCount++;
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${passed ? 'pass' : 'fail'}`;
+            resultDiv.innerHTML = `
+                <strong>Test ${testCount}: ${test}</strong>
+                <div>${passed ? '✓ PASSED' : '✗ FAILED'}</div>
+                ${details ? `<div class="code">${details}</div>` : ''}
+            `;
+            results.appendChild(resultDiv);
+        }
+        
+        function addInfo(title, content) {
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'test-result info';
+            infoDiv.innerHTML = `
+                <strong>${title}</strong>
+                ${content ? `<div class="code">${content}</div>` : ''}
+            `;
+            results.appendChild(infoDiv);
+        }
+        
+        // Wait for iframe to load
+        document.getElementById('test-frame').onload = function() {
+            const iframeDoc = this.contentDocument || this.contentWindow.document;
+            
+            // Run tests after a delay to ensure JavaScript has executed
+            setTimeout(() => {
+                // Test 1: Check if .fab-container is created
+                const fabContainer = iframeDoc.querySelector('.fab-container');
+                if (fabContainer) {
+                    addResult('FAB container exists', true, 'Found .fab-container element');
+                    
+                    // Check positioning
+                    const styles = iframeDoc.defaultView.getComputedStyle(fabContainer);
+                    addInfo('FAB Container Positioning', 
+                        `position: ${styles.position}
+bottom: ${styles.bottom}
+right: ${styles.right}
+z-index: ${styles.zIndex}`);
+                } else {
+                    addResult('FAB container exists', false, '.fab-container not found');
+                }
+                
+                // Test 2: Check for two buttons
+                const fabButtons = iframeDoc.querySelectorAll('.fab');
+                if (fabButtons.length === 2) {
+                    addResult('Two FAB buttons exist', true, `Found ${fabButtons.length} .fab buttons`);
+                    
+                    // Check individual buttons
+                    const scrollToTop = iframeDoc.getElementById('scrollToTop');
+                    const quickNavFab = iframeDoc.getElementById('quickNavFab');
+                    
+                    addResult('scrollToTop button exists', !!scrollToTop, 
+                        scrollToTop ? 'Button with id="scrollToTop" found' : 'scrollToTop button not found');
+                    
+                    addResult('quickNavFab button exists', !!quickNavFab, 
+                        quickNavFab ? 'Button with id="quickNavFab" found' : 'quickNavFab button not found');
+                    
+                    // Check button styles
+                    if (fabButtons[0]) {
+                        const buttonStyles = iframeDoc.defaultView.getComputedStyle(fabButtons[0]);
+                        addInfo('FAB Button Styles', 
+                            `width: ${buttonStyles.width}
+height: ${buttonStyles.height}
+border-radius: ${buttonStyles.borderRadius}
+background: ${buttonStyles.background}
+transition: ${buttonStyles.transition}`);
+                    }
+                } else {
+                    addResult('Two FAB buttons exist', false, `Found ${fabButtons.length} buttons instead of 2`);
+                }
+                
+                // Test 3: Check hover animation
+                const fabButton = iframeDoc.querySelector('.fab');
+                if (fabButton) {
+                    // Check if hover styles are defined
+                    const styleSheets = iframeDoc.styleSheets;
+                    let hoverRuleFound = false;
+                    let hoverTransform = '';
+                    
+                    for (let sheet of styleSheets) {
+                        try {
+                            for (let rule of sheet.cssRules) {
+                                if (rule.selectorText === '.fab:hover') {
+                                    hoverRuleFound = true;
+                                    hoverTransform = rule.style.transform;
+                                    break;
+                                }
+                            }
+                        } catch (e) {
+                            // Handle cross-origin restrictions
+                        }
+                    }
+                    
+                    addResult('Hover animation defined', hoverRuleFound && hoverTransform === 'scale(1.1)', 
+                        hoverRuleFound ? `Hover transform: ${hoverTransform}` : 'No hover rule found in CSS');
+                }
+                
+                // Test 4: Check positioning
+                if (fabContainer) {
+                    const styles = iframeDoc.defaultView.getComputedStyle(fabContainer);
+                    const correctPosition = styles.position === 'fixed' && 
+                                          styles.bottom === '30px' && 
+                                          styles.right === '30px';
+                    
+                    addResult('FAB positioning correct', correctPosition, 
+                        `Expected: position: fixed, bottom: 30px, right: 30px
+Actual: position: ${styles.position}, bottom: ${styles.bottom}, right: ${styles.right}`);
+                }
+                
+                // Test 5: Check functionality descriptions
+                addInfo('Functionality Tests', 
+                    `scrollToTop button: Should scroll to top of page when clicked
+quickNavFab button: Should open a Bootstrap modal with navigation links
+
+Note: Due to iframe restrictions, actual click events cannot be tested automatically.
+Please manually test:
+1. Click the scroll-to-top button (arrow up icon) to verify smooth scrolling
+2. Click the quick navigation button (compass icon) to verify modal opens
+3. Hover over buttons to see scale(1.1) animation`);
+                
+            }, 2000); // Wait 2 seconds for page to fully load
+        };
+    </script>
+</body>
+</html>

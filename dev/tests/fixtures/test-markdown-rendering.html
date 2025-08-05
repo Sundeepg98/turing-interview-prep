@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Markdown Rendering Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-case { border: 1px solid #ccc; margin: 10px 0; padding: 10px; }
+        .raw { background: #ffcccc; }
+        .processed { background: #ccffcc; }
+        pre { background: #f5f5f5; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Markdown Rendering Test</h1>
+    
+    <div id="test-markdown" style="display: none">### Test Header
+**Bold text** and *italic text*
+- [ ] Checkbox item
+- Regular list item
+
+```typescript
+const test = "code block";
+```
+
+## Another Section
+More **bold** text
+    </div>
+    
+    <div class="test-case">
+        <h2>Raw Markdown</h2>
+        <pre id="raw-output" class="raw"></pre>
+    </div>
+    
+    <div class="test-case">
+        <h2>Processed HTML</h2>
+        <div id="processed-output" class="processed"></div>
+    </div>
+    
+    <script>
+        // Copy the parseMarkdown function from the actual page
+        function parseMarkdown(text) {
+            // First decode HTML entities
+            text = decodeHtmlEntities(text);
+            
+            // Store code blocks with placeholders to protect them
+            const codeBlocks = [];
+            text = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+                const index = codeBlocks.length;
+                codeBlocks.push({
+                    lang: lang || 'typescript',
+                    code: code.trim()
+                });
+                return `__CODE_BLOCK_${index}__`;
+            });
+            
+            // Store inline code to protect it
+            const inlineCode = [];
+            text = text.replace(/`([^`]+)`/g, (match, code) => {
+                const index = inlineCode.length;
+                inlineCode.push(code);
+                return `__INLINE_CODE_${index}__`;
+            });
+            
+            // Handle horizontal rules (must be on its own line)
+            text = text.replace(/^\s*---+\s*$/gm, '<hr>');
+            
+            // Handle headers (must be at start of line)
+            text = text.replace(/^###\s+(.+)$/gm, '<h4>$1</h4>');
+            text = text.replace(/^##\s+(.+)$/gm, '<h3>$1</h3>');
+            text = text.replace(/^#\s+(.+)$/gm, '<h2>$1</h2>');
+            
+            // Handle bold text (including multi-word)
+            text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+            
+            // Handle italic text (single asterisk, avoid list markers)
+            text = text.replace(/(?<!^|\s)\*([^*\n]+)\*/g, '<em>$1</em>');
+            
+            // Handle checkboxes BEFORE processing other lists
+            text = text.replace(/^-\s+\[\s\]\s+(.+)$/gm, '<div class="form-check"><input class="form-check-input" type="checkbox" disabled><label class="form-check-label">$1</label></div>');
+            text = text.replace(/^-\s+\[x\]\s+(.+)$/gm, '<div class="form-check"><input class="form-check-input" type="checkbox" checked disabled><label class="form-check-label">$1</label></div>');
+            
+            // Process lists and paragraphs line by line
+            const lines = text.split('\n');
+            let processedLines = [];
+            let inList = false;
+            let listType = null;
+            let currentParagraph = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const trimmedLine = line.trim();
+                
+                // Skip lines that are already HTML
+                if (trimmedLine.startsWith('<') && trimmedLine.endsWith('>')) {
+                    // Close current paragraph if any
+                    if (currentParagraph.length > 0) {
+                        processedLines.push('<p>' + currentParagraph.join(' ') + '</p>');
+                        currentParagraph = [];
+                    }
+                    // Close list if needed
+                    if (inList) {
+                        processedLines.push(`</${listType}>`);
+                        inList = false;
+                        listType = null;
+                    }
+                    processedLines.push(line);
+                    continue;
+                }
+                
+                // Check for bullet points
+                const bulletMatch = line.match(/^(\s*)[-*]\s+(.+)$/);
+                const numberMatch = line.match(/^(\s*)\d+\.\s+(.+)$/);
+                
+                if (bulletMatch) {
+                    // Close current paragraph if any
+                    if (currentParagraph.length > 0) {
+                        processedLines.push('<p>' + currentParagraph.join(' ') + '</p>');
+                        currentParagraph = [];
+                    }
+                    
+                    const content = bulletMatch[2];
+                    
+                    if (!inList || listType !== 'ul') {
+                        if (inList && listType === 'ol') {
+                            processedLines.push('</ol>');
+                        }
+                        processedLines.push('<ul>');
+                        inList = true;
+                        listType = 'ul';
+                    }
+                    
+                    processedLines.push(`<li>${content}</li>`);
+                } else if (numberMatch) {
+                    // Close current paragraph if any
+                    if (currentParagraph.length > 0) {
+                        processedLines.push('<p>' + currentParagraph.join(' ') + '</p>');
+                        currentParagraph = [];
+                    }
+                    
+                    const content = numberMatch[2];
+                    
+                    if (!inList || listType !== 'ol') {
+                        if (inList && listType === 'ul') {
+                            processedLines.push('</ul>');
+                        }
+                        processedLines.push('<ol>');
+                        inList = true;
+                        listType = 'ol';
+                    }
+                    
+                    processedLines.push(`<li>${content}</li>`);
+                } else {
+                    // Not a list item
+                    if (trimmedLine === '') {
+                        // Empty line
+                        if (inList) {
+                            // End the list
+                            processedLines.push(`</${listType}>`);
+                            inList = false;
+                            listType = null;
+                        }
+                        // End current paragraph if any
+                        if (currentParagraph.length > 0) {
+                            processedLines.push('<p>' + currentParagraph.join(' ') + '</p>');
+                            currentParagraph = [];
+                        }
+                    } else {
+                        // Regular text line
+                        if (inList) {
+                            // End the list if we hit non-list content
+                            processedLines.push(`</${listType}>`);
+                            inList = false;
+                            listType = null;
+                        }
+                        // Add to current paragraph
+                        currentParagraph.push(trimmedLine);
+                    }
+                }
+            }
+            
+            // Close any remaining paragraph
+            if (currentParagraph.length > 0) {
+                processedLines.push('<p>' + currentParagraph.join(' ') + '</p>');
+            }
+            
+            // Close any open list
+            if (inList) {
+                processedLines.push(`</${listType}>`);
+            }
+            
+            text = processedLines.join('\n');
+            
+            // Clean up multiple empty paragraphs
+            text = text.replace(/<p>\s*<\/p>/g, '');
+            
+            // Restore inline code
+            inlineCode.forEach((code, index) => {
+                text = text.replace(`__INLINE_CODE_${index}__`, `<code>${escapeHtml(code)}</code>`);
+            });
+            
+            // Restore code blocks
+            codeBlocks.forEach((block, index) => {
+                const codeHtml = `
+                    <div class="position-relative mb-3">
+                        <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2 copy-code">
+                            <i class="bi bi-clipboard"></i> Copy
+                        </button>
+                        <pre><code class="language-${block.lang}">${escapeHtml(block.code)}</code></pre>
+                    </div>`;
+                text = text.replace(`__CODE_BLOCK_${index}__`, codeHtml);
+            });
+            
+            return text;
+        }
+        
+        function decodeHtmlEntities(text) {
+            const entities = {
+                '&amp;': '&',
+                '&lt;': '<',
+                '&gt;': '>',
+                '&quot;': '"',
+                '&#039;': "'",
+                '&apos;': "'",
+                '&nbsp;': ' ',
+                '&mdash;': '—',
+                '&ndash;': '–',
+                '&hellip;': '…',
+                '&ldquo;': '"',
+                '&rdquo;': '"',
+                '&lsquo;': '\u2018',
+                '&rsquo;': '\u2019'
+            };
+            
+            return text.replace(/&[#\w]+;/g, entity => entities[entity] || entity);
+        }
+        
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+        
+        // Test the parsing
+        const testMarkdown = document.getElementById('test-markdown').textContent;
+        document.getElementById('raw-output').textContent = testMarkdown;
+        
+        const processed = parseMarkdown(testMarkdown);
+        document.getElementById('processed-output').innerHTML = processed;
+    </script>
+</body>
+</html>

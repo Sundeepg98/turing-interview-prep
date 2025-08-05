@@ -1,0 +1,44 @@
+{
+  "questions": [
+    {
+      "id": "1",
+      "title": "What is Pulumi and how does it differ from Terraform?",
+      "content": "Pulumi is a modern infrastructure as code platform that allows you to use familiar programming languages like TypeScript, Python, Go, and C# to define cloud infrastructure. Unlike Terraform which uses HCL (HashiCorp Configuration Language), Pulumi leverages existing language ecosystems.\n\nKey differences:\n- **Programming Languages**: Use TypeScript, Python, Go, C# instead of HCL\n- **Type Safety**: Full IDE support with autocomplete and type checking\n- **Abstractions**: Create reusable components with functions and classes\n- **Testing**: Use standard testing frameworks\n- **State Management**: Built-in state management with encryption",
+      "category": "DevOps",
+      "difficulty": "medium",
+      "tags": ["pulumi", "terraform", "iac", "infrastructure", "devops"]
+    },
+    {
+      "id": "2",
+      "title": "Explain TypeScript generics with examples",
+      "content": "Generics provide a way to make components work with any data type and not restrict to one data type. They help create reusable components.\n\n```typescript\n// Generic function\nfunction identity<T>(arg: T): T {\n    return arg;\n}\n\n// Generic interface\ninterface GenericIdentityFn<T> {\n    (arg: T): T;\n}\n\n// Generic class\nclass GenericNumber<T> {\n    zeroValue: T;\n    add: (x: T, y: T) => T;\n}\n```\n\nGenerics provide type safety while maintaining flexibility.",
+      "category": "TypeScript",
+      "difficulty": "medium",
+      "tags": ["typescript", "generics", "types", "programming"]
+    },
+    {
+      "id": "3",
+      "title": "What are React Hooks and why were they introduced?",
+      "content": "React Hooks are functions that let you use state and other React features without writing a class. They were introduced in React 16.8.\n\nCommon hooks:\n- `useState`: Manage local state\n- `useEffect`: Perform side effects\n- `useContext`: Consume context\n- `useReducer`: Complex state management\n- `useMemo`: Memoize expensive computations\n- `useCallback`: Memoize callbacks\n\nHooks solve problems like:\n- Complex components with tangled lifecycle logic\n- Reusing stateful logic between components\n- Classes confusing both people and machines",
+      "category": "React",
+      "difficulty": "easy",
+      "tags": ["react", "hooks", "useState", "useEffect", "javascript"]
+    },
+    {
+      "id": "4",
+      "title": "Kubernetes vs Docker Swarm comparison",
+      "content": "Both Kubernetes and Docker Swarm are container orchestration platforms, but they differ significantly:\n\n**Kubernetes**:\n- More complex but feature-rich\n- Large ecosystem and community\n- Better for large-scale deployments\n- Steep learning curve\n- Advanced networking and storage options\n\n**Docker Swarm**:\n- Simpler to set up and use\n- Native Docker integration\n- Good for smaller deployments\n- Limited advanced features\n- Easier learning curve\n\nChoose Kubernetes for enterprise-scale applications and Docker Swarm for simpler deployments.",
+      "category": "DevOps",
+      "difficulty": "hard",
+      "tags": ["kubernetes", "docker", "swarm", "orchestration", "containers"]
+    },
+    {
+      "id": "5",
+      "title": "Explain closures in JavaScript",
+      "content": "A closure is a function having access to the parent scope, even after the parent function has closed.\n\n```javascript\nfunction outerFunction(x) {\n    return function innerFunction(y) {\n        return x + y; // x is accessible here\n    };\n}\n\nconst add5 = outerFunction(5);\nconsole.log(add5(3)); // 8\n```\n\nClosures are commonly used for:\n- Data privacy and encapsulation\n- Creating function factories\n- Event handlers and callbacks\n- Module pattern implementation",
+      "category": "JavaScript",
+      "difficulty": "medium",
+      "tags": ["javascript", "closures", "scope", "functions"]
+    }
+  ]
+}

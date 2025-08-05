@@ -1,0 +1,509 @@
+{
+  "config": {
+    "configFile": "/var/projects/interview_prep/playwright.config.js",
+    "rootDir": "/var/projects/interview_prep/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 10
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/var/projects/interview_prep/archive/test-reports/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 10
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/var/projects/interview_prep/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.(test|spec)\\.(js|ts|jsx|tsx)$/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/var/projects/interview_prep/archive/test-reports/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 10
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/var/projects/interview_prep/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.(test|spec)\\.(js|ts|jsx|tsx)$/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/var/projects/interview_prep/archive/test-reports/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 10
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/var/projects/interview_prep/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.(test|spec)\\.(js|ts|jsx|tsx)$/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/var/projects/interview_prep/archive/test-reports/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 10
+        },
+        "id": "Mobile Chrome",
+        "name": "Mobile Chrome",
+        "testDir": "/var/projects/interview_prep/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.(test|spec)\\.(js|ts|jsx|tsx)$/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/var/projects/interview_prep/archive/test-reports/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 10
+        },
+        "id": "Mobile Safari",
+        "name": "Mobile Safari",
+        "testDir": "/var/projects/interview_prep/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.(test|spec)\\.(js|ts|jsx|tsx)$/"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.54.1",
+    "workers": 10,
+    "webServer": {
+      "command": "npx http-server dist -p 8080 --silent",
+      "port": 8080,
+      "timeout": 120000,
+      "reuseExistingServer": true
+    }
+  },
+  "suites": [
+    {
+      "title": "quick-parallel-test.spec.js",
+      "file": "quick-parallel-test.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Quick Parallel Tests @chromium",
+          "file": "quick-parallel-test.spec.js",
+          "line": 8,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Core elements exist",
+              "ok": true,
+              "tags": [
+                "chromium"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 13037,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-21T17:03:38.140Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "003a8c9685009e002a46-92d6e1bfd4bd0c6fc012",
+              "file": "quick-parallel-test.spec.js",
+              "line": 17,
+              "column": 3
+            },
+            {
+              "title": "Search works",
+              "ok": true,
+              "tags": [
+                "chromium"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 14053,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-21T17:03:38.236Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "003a8c9685009e002a46-36cf46196f1b449f1230",
+              "file": "quick-parallel-test.spec.js",
+              "line": 25,
+              "column": 3
+            },
+            {
+              "title": "Dark mode toggles",
+              "ok": true,
+              "tags": [
+                "chromium"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 17978,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-21T17:03:38.247Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "003a8c9685009e002a46-ce3ca6a488b69990d466",
+              "file": "quick-parallel-test.spec.js",
+              "line": 32,
+              "column": 3
+            },
+            {
+              "title": "Navigation clicks work",
+              "ok": true,
+              "tags": [
+                "chromium"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 13630,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-21T17:03:38.139Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "003a8c9685009e002a46-14d7b68e636dd0cc7ccf",
+              "file": "quick-parallel-test.spec.js",
+              "line": 38,
+              "column": 3
+            },
+            {
+              "title": "Questions are loaded",
+              "ok": true,
+              "tags": [
+                "chromium"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 13826,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-21T17:03:38.239Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "003a8c9685009e002a46-397489b7e53331a58b50",
+              "file": "quick-parallel-test.spec.js",
+              "line": 46,
+              "column": 3
+            },
+            {
+              "title": "Code blocks exist",
+              "ok": true,
+              "tags": [
+                "chromium"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 13416,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-21T17:03:38.250Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "003a8c9685009e002a46-606746c78204004a4839",
+              "file": "quick-parallel-test.spec.js",
+              "line": 51,
+              "column": 3
+            },
+            {
+              "title": "Copy buttons exist",
+              "ok": true,
+              "tags": [
+                "chromium"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 13298,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-21T17:03:38.440Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "003a8c9685009e002a46-e17a27497296a80ebcdc",
+              "file": "quick-parallel-test.spec.js",
+              "line": 56,
+              "column": 3
+            },
+            {
+              "title": "No console errors",
+              "ok": true,
+              "tags": [
+                "chromium"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 7,
+                      "status": "passed",
+                      "duration": 10699,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-21T17:03:38.220Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "003a8c9685009e002a46-b87c7cd766f88b876e67",
+              "file": "quick-parallel-test.spec.js",
+              "line": 61,
+              "column": 3
+            },
+            {
+              "title": "Mobile menu exists",
+              "ok": true,
+              "tags": [
+                "chromium"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 8,
+                      "status": "passed",
+                      "duration": 11089,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-21T17:03:38.230Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "003a8c9685009e002a46-8ea30bacc2f7ef91e570",
+              "file": "quick-parallel-test.spec.js",
+              "line": 70,
+              "column": 3
+            },
+            {
+              "title": "STAR stories present",
+              "ok": true,
+              "tags": [
+                "chromium"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 9,
+                      "status": "passed",
+                      "duration": 13562,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-21T17:03:38.183Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "003a8c9685009e002a46-7bed97a300666fef48e3",
+              "file": "quick-parallel-test.spec.js",
+              "line": 76,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-07-21T17:03:36.115Z",
+    "duration": 20622.093,
+    "expected": 10,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

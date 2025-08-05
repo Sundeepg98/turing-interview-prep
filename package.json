@@ -6,7 +6,12 @@
   "scripts": {
     "start": "open dist/index.html",
     "serve": "npx http-server dist -p 8080",
-    "test": "echo \"All tests passed!\"",
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:debug": "npx playwright test --debug",
+    "test:report": "npx playwright show-report dev/test-output/html",
+    "test:cleanup": "node dev/scripts/maintenance/maintain-tests.js",
+    "test:maintain": "node dev/scripts/maintenance/maintain-tests.js",
     "build": "echo \"No build required - static HTML\""
   },
   "keywords": [

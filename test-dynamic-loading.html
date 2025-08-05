@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Dynamic Loading</title>
+</head>
+<body>
+    <h1>Testing Markdown Loading</h1>
+    <div id="result"></div>
+    
+    <script>
+        async function testLoading() {
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                // Test 1: Can we fetch the markdown?
+                const response = await fetch('./content/pulumi-interview-guide.md');
+                resultDiv.innerHTML += `<p>✅ Fetch status: ${response.status}</p>`;
+                
+                if (response.ok) {
+                    const text = await response.text();
+                    resultDiv.innerHTML += `<p>✅ Markdown loaded: ${text.length} characters</p>`;
+                    
+                    // Test 2: Can we parse it?
+                    const lines = text.split('\n');
+                    resultDiv.innerHTML += `<p>✅ Lines found: ${lines.length}</p>`;
+                    
+                    // Test 3: Find sections
+                    const sections = lines.filter(line => line.startsWith('## '));
+                    resultDiv.innerHTML += `<p>✅ Sections found: ${sections.length}</p>`;
+                    resultDiv.innerHTML += '<ul>';
+                    sections.forEach(section => {
+                        resultDiv.innerHTML += `<li>${section}</li>`;
+                    });
+                    resultDiv.innerHTML += '</ul>';
+                } else {
+                    resultDiv.innerHTML += `<p>❌ Failed to load: ${response.statusText}</p>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML += `<p>❌ Error: ${error.message}</p>`;
+            }
+        }
+        
+        testLoading();
+    </script>
+</body>
+</html>
